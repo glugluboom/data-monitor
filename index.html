@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<head>
+		<title>Data Monitor</title>
+	</head>
+    <body>
+		<script src ="https://script.google.com/macros/s/AKfycbzddsf24HbUlgMaR8UUyoetUcFEeGBatpb0VnWVzXp_m1zz7L4/exec"></script>
+		<div class="w3-container">
+			<h1>Data Monitor</h1>
+		</div>
+		<div class="w3-rows w3-border">
+			<div class="w3-container w3-quarter w3-gray" >
+				<h3>Max value</h3>
+			</div>
+			<div id = "divmax" class="w3-container w3-quarter" >
+				<h4 id="max"></h4>
+
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+				</script>
+				<script type="text/javascript">
+					function getmax(){
+						$.get("https://script.google.com/macros/s/AKfycbzddsf24HbUlgMaR8UUyoetUcFEeGBatpb0VnWVzXp_m1zz7L4/exec",
+						function (max) {
+                        document.getElementById("max").innerHTML = max;
+						});
+					}
+					getmax();
+					setInterval(function(){
+					getmax() // this will run after every 5 seconds
+					}, 10000);
+				</script>
+			</div>
+			<div class="w3-container w3-quarter w3-gray" >
+				<h3>Min value</h3>
+			</div>
+			<div class="w3-container w3-quarter">
+				<h4 id="min"></h4>
+				
+				<script type="text/javascript">
+					function getmin(){
+						$.get("https://script.google.com/macros/s/AKfycbynJoDw3yjmejbxc7EQTsxf6I08MEtuD2WoRwkrHbXhu_ircEei/exec",
+						function (min) {document.getElementById("min").innerHTML = min; 
+						});
+					 }
+					getmin();
+					setInterval(function(){
+					getmin() // this will run after every 5 seconds
+					}, 10000);
+					
+				</script>
+			</div>
+		</div>
+		<div class="w3-container">
+			<h2>Current Value</h2>
+		</div>		
+		<div class="w3-rows w3-border">
+			<div class="w3-container w3-quarter w3-gray" >
+				<h3>X angle</h3>
+			</div>
+			<div class="w3-container w3-quarter" >
+				<h4 id="xangle"></h4>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+				</script>
+				<script type="text/javascript">
+					function getx(){
+						$.get("https://script.google.com/macros/s/AKfycbysWdVPfuQabi1lOJ3_lQXtOd_dBSqsuft-nnjpXJMAaGoFwgA/exec",
+						function (x) {
+                        document.getElementById("xangle").innerHTML = x;
+						});
+					}
+					getx();
+					setInterval(function(){
+					getx() // this will run after every 5 seconds
+					}, 10000);
+				</script>
+			</div>
+			<div class="w3-container w3-quarter w3-gray" >
+				<h3>Y angle</h3>
+			</div>
+			<div class="w3-container w3-quarter">
+				<h4 id="yangle"></h4>
+				
+				<script type="text/javascript">
+					function gety(){
+						$.get("https://script.google.com/macros/s/AKfycbxox-VGTkQh9kXyqP4ILbObeg3GvgI3GvNzlXjhezBJuasGRNA/exec",
+						function (y) {
+						document.getElementById("yangle").innerHTML = y; 
+						});
+					 }
+					gety();
+					setInterval(function(){
+					gety() // this will run after every 5 seconds
+					}, 10000);
+					
+				</script>
+			</div>
+		</div>		
+		
+
+	</body>
+</html>
