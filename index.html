@@ -53,11 +53,6 @@
 		<title>Data Monitor</title>
 	</head>
     <body>
-	<?php
-	header('Access-Control-Allow-Origin: https://glugluboom.github.io');
-	header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-	header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
-	?>
 		<div class="w3-container w3-center w3-black">
 			<h1 class="w3-opacity"><b>Data Monitor</b></h1>
 		</div>
@@ -67,41 +62,12 @@
 			</div>
 			<div id = "divmax" class="w3-container w3-quarter" >
 				<h4 id="max"></h4>
-
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-				<script type="text/javascript">
-					function getmax(){
-
-						$.get("https://script.google.com/macros/s/AKfycbzddsf24HbUlgMaR8UUyoetUcFEeGBatpb0VnWVzXp_m1zz7L4/exec",
-							
-						function (max) {
-                        document.getElementById("max").innerHTML = max;
-						});
-					}
-					getmax();
-					setInterval(function(){
-					getmax() // this will run after every 5 seconds
-					}, 10000);
-				</script>
 			</div>
 			<div class="w3-container w3-quarter w3-blue w3-text-black w3-round" >
 				<h3>Min value</h3>
 			</div>
 			<div class="w3-container w3-quarter">
 				<h4 id="min"></h4>
-				
-				<script type="text/javascript">
-					function getmin(){
-						$.get("https://script.google.com/macros/s/AKfycbynJoDw3yjmejbxc7EQTsxf6I08MEtuD2WoRwkrHbXhu_ircEei/exec",
-						function (min) {document.getElementById("min").innerHTML = min; 
-						});
-					 }
-					getmin();
-					setInterval(function(){
-					getmin() // this will run after every 5 seconds
-					}, 10000);
-					
-				</script>
 			</div>
 		</div>
 		<div class="w3-container w3-center">
@@ -113,248 +79,245 @@
 			</div>
 			<div class="w3-container w3-quarter" >
 				<h4 id="xangle"></h4>
-				</script>
-				<script type="text/javascript">
-					function getx(){
-						$.get("https://script.google.com/macros/s/AKfycbysWdVPfuQabi1lOJ3_lQXtOd_dBSqsuft-nnjpXJMAaGoFwgA/exec",
-						function (x) {
-                        document.getElementById("xangle").innerHTML = x;
-						});
-					}
-					getx();
-					setInterval(function(){
-					getx() // this will run after every 5 seconds
-					}, 2000);
-				</script>
 			</div>
 			<div class="w3-container w3-quarter w3-green w3-text-black w3-round" >
 				<h3>Y angle</h3>
 			</div>
 			<div class="w3-container w3-quarter ">
 				<h4 id="yangle"></h4>
-				
-				
 			</div>
 		</div>	
 
 
 		<div class="w3-container w3-center">
 			<h2>Chart</h2>
-			<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/ED4B1A61-F9B8-294D-AF60-B112247368A9/main.js" charset="UTF-8"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-			<script src="realTimeChart.js"></script>
 			<div id="viewDiv" class="w3-container w3-half"></div>
-			
-			
-			<script type="text/javascript">
-			  var xangle=-180;
-			  function getx(){
-			    $.get("https://script.google.com/macros/s/AKfycbysWdVPfuQabi1lOJ3_lQXtOd_dBSqsuft-nnjpXJMAaGoFwgA/exec",
-			    function (x) {
-			    document.getElementById("xangle").innerHTML = x;
-			    xangle = x;
-			    },2000);
-			  }
-			  getx();
-			  setInterval(function(){
-			  getx() // this will run after every 5 seconds
-			  });
-			</script>
-			<script>
-			'use strict';
-
-			// mean and deviation for time interval
-			var meanMs = 1000, // milliseconds
-			    dev = 150;
-
-			// define time scale
-			var timeScale = d3.scale.linear()
-			    .domain([300, 1700])
-			    .range([300, 1700])
-			    .clamp(true);
-
-			// define value scale
-			var valueScale = d3.scale.linear()
-			    .domain([0, 1])
-			    .range([30, 95]);
-
-			// generate initial data
-			var normal = d3.random.normal(1000, 150);
-			var currMs = new Date().getTime() - 300000 - 4000;
-			var data = d3.range(300).map(function(d, i, arr) {
-			  var value = -180; // random data
-			  //var value = Math.round((d % 60) / 60 * 95); // ramp data
-			  var interval = 5000;
-			  currMs += interval;
-			  var time = new Date(currMs);
-			  var obj = { interval: interval, value: value, time: time, ts: currMs }
-			  return obj;
-			})
-
-			// create the real time chart
-			var chart = realTimeChart()
-			    .title("Chart Title")
-			    .yTitle("X angle")
-			    .xTitle("Time")
-			    .border(false)
-			    .width(600)
-			    .height(290)
-			    .barWidth(1)
-			    .initialData(data);
-
-			console.log("Version: ", chart.version);
-			console.dir("Dir++");
-			console.trace();
-			console.warn("warn")
-
-			// invoke the chart
-			var chartDiv = d3.select("#viewDiv").append("div")
-			    .attr("id", "chartDiv")
-			    .call(chart);
-
-			// alternative invocation
-			//chart(chartDiv); 
-
-
-			// drive data into the chart roughly every second
-			// in a normal use case, real time data would arrive through the network or some other mechanism
-			var d = 0;
-			function dataGenerator() {
-
-			  var timeout = 5000;
-
-			  setTimeout(function() {
-
-			    // create new data item
-			    var now = new Date();
-			    var obj = {
-			      value: xangle, // random data
-			      //value: Math.round((d++ % 60) / 60 * 95), // ramp data
-			      time: now,
-			      color: "red",
-			      ts: now.getTime(),
-			      interval: timeout
-			    };
-
-			    // send the datum to the chart
-			    chart.datum(obj);
-
-			    // do forever
-			    dataGenerator();
-
-			  }, timeout);
-			}
-
-			// start the data generator
-			dataGenerator();
-
-			</script>
 			<div id="viewDiv2" class="w3-container w3-half"></div>
-			<script type="text/javascript">
-			  var yangle=0;
-			  function gety(){
-				$.get("https://script.google.com/macros/s/AKfycbxox-VGTkQh9kXyqP4ILbObeg3GvgI3GvNzlXjhezBJuasGRNA/exec",
-				function (y) {
-				yangle = y; 
-				document.getElementById("yangle").innerHTML = y; 
-				},2000);
-			 }
-			gety();
-			setInterval(function(){
-			gety() // this will run after every 5 seconds
-			});
-			</script>
-			<script>
-			'use strict';
-
-			// mean and deviation for time interval
-			var meanMs = 1000, // milliseconds
-			    dev = 150;
-
-			// define time scale
-			var timeScale = d3.scale.linear()
-			    .domain([300, 1700])
-			    .range([300, 1700])
-			    .clamp(true);
-
-			// define value scale
-			var valueScale = d3.scale.linear()
-			    .domain([0, 1])
-			    .range([30, 95]);
-
-			// generate initial data
-			var normal = d3.random.normal(1000, 150);
-			var currMs = new Date().getTime() - 300000 - 4000;
-			var data = d3.range(300).map(function(d, i, arr) {
-			  var value = -180; // random data
-			  //var value = Math.round((d % 60) / 60 * 95); // ramp data
-			  var interval = 5000;
-			  currMs += interval;
-			  var time = new Date(currMs);
-			  var obj = { interval: interval, value: value, time: time, ts: currMs }
-			  return obj;
-			})
-
-			// create the real time chart
-			var chart2 = realTimeChart()
-			    .title("Chart Title")
-			    .yTitle("Y angle")
-			    .xTitle("Time")
-			    .border(false)
-			    .width(600)
-			    .height(290)
-			    .barWidth(1)
-			    .initialData(data);
-
-			console.log("Version: ", chart2.version);
-			console.dir("Dir++");
-			console.trace();
-			console.warn("warn")
-
-			// invoke the chart
-			var chartDiv2 = d3.select("#viewDiv2").append("div")
-			    .attr("id", "chartDiv")
-			    .call(chart2);
-
-			// alternative invocation
-			//chart(chartDiv); 
-
-
-			// drive data into the chart roughly every second
-			// in a normal use case, real time data would arrive through the network or some other mechanism
-			var d = 0;
-			function dataGenerator2() {
-
-			  var timeout = 5000;
-
-			  setTimeout(function() {
-
-			    // create new data item
-			    var now = new Date();
-			    var obj = {
-			      value: yangle, // random data
-			      //value: Math.round((d++ % 60) / 60 * 95), // ramp data
-			      time: now,
-			      color: "green",
-			      ts: now.getTime(),
-			      interval: timeout
-			    };
-
-			    // send the datum to the chart
-			    chart2.datum(obj);
-
-			    // do forever
-			    dataGenerator2();
-
-			  }, timeout);
-			}
-
-			// start the data generator
-			dataGenerator2();
-
-			</script>
 		</div>		
-		
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript">
+		function getmax(){
 
+			$.get("https://script.google.com/macros/s/AKfycbzddsf24HbUlgMaR8UUyoetUcFEeGBatpb0VnWVzXp_m1zz7L4/exec",				
+			function (max) {
+            	document.getElementById("max").innerHTML = max;
+			});
+		}
+		getmax();
+		setInterval(function(){
+		getmax() // this will run after every 5 seconds
+		}, 10000);
+	</script>
+	<script type="text/javascript">
+		function getmin(){
+			$.get("https://script.google.com/macros/s/AKfycbynJoDw3yjmejbxc7EQTsxf6I08MEtuD2WoRwkrHbXhu_ircEei/exec",
+				function (min) {document.getElementById("min").innerHTML = min; 
+			});
+		 }
+		getmin();
+		setInterval(function(){
+		getmin() // this will run after every 5 seconds
+		}, 10000);	
+	</script>
+	<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/ED4B1A61-F9B8-294D-AF60-B112247368A9/main.js" charset="UTF-8"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+	<script src="realTimeChart.js"></script>
+	<script type="text/javascript">
+		var xangle=-180;
+		function getx(){
+	    	$.get("https://script.google.com/macros/s/AKfycbysWdVPfuQabi1lOJ3_lQXtOd_dBSqsuft-nnjpXJMAaGoFwgA/exec",
+	  			function (x) {
+		    		document.getElementById("xangle").innerHTML = x;
+		    		xangle = x;
+	    		});
+	  	}
+		getx();
+		setInterval(function(){
+			getx() // this will run after every 5 seconds
+	  	},2000);
+	</script>
+	<script type="text/javascript">
+	  	var yangle=0;
+	  	function gety(){
+			$.get("https://script.google.com/macros/s/AKfycbxox-VGTkQh9kXyqP4ILbObeg3GvgI3GvNzlXjhezBJuasGRNA/exec",
+				function (y) {
+					yangle = y; 
+					document.getElementById("yangle").innerHTML = y; 
+				});
+		 }
+		gety();
+		setInterval(function(){
+			gety() // this will run after every 5 seconds
+		},2000);
+	</script>
+	<script>
+		'use strict';
+		// define time scale
+		var timeScale = d3.scale.linear()
+		    .domain([300, 1700])
+		    .range([300, 1700])
+		    .clamp(true);
+
+		// define value scale
+		var valueScale = d3.scale.linear()
+		    .domain([0, 1])
+		    .range([30, 95]);
+
+		// generate initial data
+		var normal = d3.random.normal(1000, 150);
+		var currMs = new Date().getTime() - 300000 - 4000;
+		var data = d3.range(300).map(function(d, i, arr) {
+		  var value = -180; // random data
+		  //var value = Math.round((d % 60) / 60 * 95); // ramp data
+		  var interval = 5000;
+		  currMs += interval;
+		  var time = new Date(currMs);
+		  var obj = { interval: interval, value: value, time: time, ts: currMs }
+		  return obj;
+		})
+
+		// create the real time chart
+		var chart = realTimeChart()
+		    .title("Chart Title")
+		    .yTitle("X angle")
+		    .xTitle("Time")
+		    .border(false)
+		    .width(600)
+		    .height(290)
+		    .barWidth(1)
+		    .initialData(data);
+/*
+		console.log("Version: ", chart.version);
+		console.dir("Dir++");
+		console.trace();
+		console.warn("warn")
+*/
+		// invoke the chart
+		var chartDiv = d3.select("#viewDiv").append("div")
+		    .attr("id", "chartDiv")
+		    .call(chart);
+
+		// alternative invocation
+		//chart(chartDiv); 
+
+
+		// drive data into the chart roughly every second
+		// in a normal use case, real time data would arrive through the network or some other mechanism
+		var d = 0;
+		function dataGenerator() {
+
+		  var timeout = 5000;
+
+		  setTimeout(function() {
+
+		    // create new data item
+		    var now = new Date();
+		    var obj = {
+		      value: xangle, // random data
+		      //value: Math.round((d++ % 60) / 60 * 95), // ramp data
+		      time: now,
+		      color: "red",
+		      ts: now.getTime(),
+		      interval: timeout
+		    };
+
+		    // send the datum to the chart
+		    chart.datum(obj);
+
+		    // do forever
+		    dataGenerator();
+
+		  }, timeout);
+		}
+
+		// start the data generator
+		dataGenerator();
+
+	</script>
+	<script>
+		'use strict';
+
+		// define time scale
+		var timeScale = d3.scale.linear()
+		    .domain([300, 1700])
+		    .range([300, 1700])
+		    .clamp(true);
+
+		// define value scale
+		var valueScale = d3.scale.linear()
+		    .domain([0, 1])
+		    .range([30, 95]);
+
+		// generate initial data
+		var normal = d3.random.normal(1000, 150);
+		var currMs = new Date().getTime() - 300000 - 4000;
+		var data = d3.range(300).map(function(d, i, arr) {
+		  var value = -180; // random data
+		  //var value = Math.round((d % 60) / 60 * 95); // ramp data
+		  var interval = 5000;
+		  currMs += interval;
+		  var time = new Date(currMs);
+		  var obj = { interval: interval, value: value, time: time, ts: currMs }
+		  return obj;
+		})
+
+		// create the real time chart
+		var chart2 = realTimeChart()
+		    .title("Chart Title")
+		    .yTitle("Y angle")
+		    .xTitle("Time")
+		    .border(false)
+		    .width(600)
+		    .height(290)
+		    .barWidth(1)
+		    .initialData(data);
+/*
+		console.log("Version: ", chart2.version);
+		console.dir("Dir++");
+		console.trace();
+		console.warn("warn")
+*/
+		// invoke the chart
+		var chartDiv2 = d3.select("#viewDiv2").append("div")
+		    .attr("id", "chartDiv")
+		    .call(chart2);
+
+		// alternative invocation
+		//chart(chartDiv); 
+
+
+		// drive data into the chart roughly every second
+		// in a normal use case, real time data would arrive through the network or some other mechanism
+		var d = 0;
+		function dataGenerator2() {
+
+		  var timeout = 5000;
+
+		  setTimeout(function() {
+
+		    // create new data item
+		    var now = new Date();
+		    var obj = {
+		      value: yangle, // random data
+		      //value: Math.round((d++ % 60) / 60 * 95), // ramp data
+		      time: now,
+		      color: "green",
+		      ts: now.getTime(),
+		      interval: timeout
+		    };
+
+		    // send the datum to the chart
+		    chart2.datum(obj);
+
+		    // do forever
+		    dataGenerator2();
+
+		  }, timeout);
+		}
+
+		// start the data generator
+		dataGenerator2();
+
+	</script>
 	</body>
 </html>
