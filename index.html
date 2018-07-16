@@ -91,9 +91,10 @@
 
 		<div class="w3-container w3-center">
 			<h2>Chart</h2>
-			<div id="viewDiv" class="w3-container w3-half"></div>
-			<div id="viewDiv2" class="w3-container w3-half"></div>
-		</div>		
+		</div>
+		<div id="viewDiv" class="w3-container w3-half w3-center" style="overflow: scroll;"></div>
+		<div id="viewDiv2" class="w3-container w3-half w3-center" style="overflow: scroll;"></div>
+				
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/javascript">
 		function getmax(){
@@ -164,7 +165,6 @@
 		    .range([30, 95]);
 
 		// generate initial data
-		var normal = d3.random.normal(1000, 150);
 		var currMs = new Date().getTime() - 300000 - 4000;
 		var data = d3.range(300).map(function(d, i, arr) {
 		  var value = -180; // random data
@@ -186,6 +186,7 @@
 		    .height(290)
 		    .barWidth(1)
 		    .initialData(data);
+
 /*
 		console.log("Version: ", chart.version);
 		console.dir("Dir++");
@@ -249,7 +250,6 @@
 		    .range([30, 95]);
 
 		// generate initial data
-		var normal = d3.random.normal(1000, 150);
 		var currMs = new Date().getTime() - 300000 - 4000;
 		var data = d3.range(300).map(function(d, i, arr) {
 		  var value = -180; // random data
